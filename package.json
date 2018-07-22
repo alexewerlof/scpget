@@ -1,0 +1,39 @@
+{
+  "name": "cspget",
+  "version": "0.0.1",
+  "description": "A tiny function that gets object/array elements from a string path but complies with content security policy",
+  "keywords": [
+    "get",
+    "object",
+    "array",
+    "lodash",
+    "underscore"
+  ],
+  "main": "lib/index.js",
+  "module": "lib/get.mjs",
+  "directories": {
+    "lib": "./lib"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "build": "tsc src/get.ts --target ES6 --declaration --newLine lf --outDir lib --strictNullChecks --noImplicitAny --noImplicitReturns --noImplicitThis",
+    "test": "mocha -r ts-node/register test/**/*.ts",
+    "preversion": "npm test",
+    "prepublish": "npm test",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/userpixel/cspget.git"
+  },
+  "author": "Alex Ewerlöf",
+  "license": "MIT"
+}
