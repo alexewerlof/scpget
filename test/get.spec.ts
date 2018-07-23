@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import get from '../src/get';
+import { it } from 'mocha';
 
 describe('#get()', () => {
   it('can resolve 1-level object', () => {
@@ -37,6 +38,13 @@ describe('#get()', () => {
     expect(get(arr, '1')).to.equal('apple');
   });
 
+  it('can accss a nested array object', () => {
+    const obj = {
+      arr: [ 'banana', 'apple', 'orange', 'pear']
+    };
+    expect(get(obj, 'arr.1')).to.equal('apple');
+  })
+
   it('supports array syntax', () => {
     const arr = [ 'banana', 'mandarin', 'orange', 'pear'];
     const obj = {
@@ -60,6 +68,36 @@ describe('#get()', () => {
 
     expect(get(obj, '["foo"]')).to.equal('bar');
     expect(get(obj, `baz["a"]['b'].c[3]`)).to.equal(3);
+  });
+
+  it('behaves the same as javascript when accessing keys with spaces around them', () => {
+    const obj = {
+      foo: 'bar'
+    };
+    expect(get(obj, ' foo ')).to.equal(obj. foo )
+  })
+
+  it('behaves the same as javascript when accessing keys with quotes and spaces around them', () => {
+    const obj = {
+      foo: {
+        bar: 'baz'
+      }
+    };
+    expect(get(obj, 'foo[ "bar" ]')).to.equal(obj. foo )
+  })
+
+  it('behaves the same as javascript when accessing array indices with spaces around them', () => {
+    const obj = {
+      foo: [ 10, 20, 30]
+    };
+    expect(get(obj, 'foo[ 1 ]')).to.equal(obj.foo[ 1 ])
+  })
+
+  it('behaves the same as javascript when accessing keys without quotes', () => {
+    const obj = {
+      foo: 'bar'
+    };
+    expect(() => get(obj, 'foo[bar]')).to.throw(ReferenceError)
   })
 
 });
